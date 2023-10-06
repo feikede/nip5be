@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mariadb://localhost:3306/smb
+    username: smb
+    password: smb
+    driverClassName: org.mariadb.jdbc.Driver
