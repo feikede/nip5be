@@ -25,7 +25,7 @@ public class NostrNip05Entity {
     @Column(nullable = false)
     private Long tsCreation;
 
-    // Unix secs timestamp of last prologation (set to 0 for first purchase)
+    // Unix secs timestamp of last prolongation (set to 0 for first purchase)
     @Column(nullable = false)
     private Long tsLastProlongation = 0L;
 

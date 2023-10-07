@@ -34,21 +34,21 @@ public class Nip5ServerService {
         if ((null == name) || (name.isEmpty())) {
             return null;
         }
-        String sani = name.toLowerCase();
-        if (!sani.matches("^[-a-z0-9._]+")) {
+        String sanitized = name.toLowerCase();
+        if (!sanitized.matches("^[-a-z0-9._]+")) {
             return null;
         }
-        return sani;
+        return sanitized;
     }
 
     @Transactional(readOnly = true)
     public NostrNip05Entity getNip05Entity(String name) throws NameNotFoundException, BadNIP05FormatException {
-        String sani = sanitizeNIP5Name(name);
-        if (null == sani) {
+        String sanitized = sanitizeNIP5Name(name);
+        if (null == sanitized) {
             throw new BadNIP05FormatException();
         }
-        log.debug("Name lookup: " + sani);
-        var check = nostrNip05EntityRepository.findById(sani);
+        log.debug("Name lookup: " + sanitized);
+        var check = nostrNip05EntityRepository.findById(sanitized);
         if (check.isEmpty()) {
             throw new NameNotFoundException();
         }
@@ -71,29 +71,29 @@ public class Nip5ServerService {
 
     @Transactional
     public void createNip05(NostrNip05CreateRequest nostrNip05CreateRequest) throws NameAlreadyTakenException, BadNIP05FormatException {
-        String sani = sanitizeNIP5Name(nostrNip05CreateRequest.getName());
-        if (null == sani) {
+        String sanitized = sanitizeNIP5Name(nostrNip05CreateRequest.getName());
+        if (null == sanitized) {
             throw new BadNIP05FormatException();
         }
-        var check = nostrNip05EntityRepository.findById(sani);
+        var check = nostrNip05EntityRepository.findById(sanitized);
         if (check.isPresent()) {
-            log.debug("Name already taken: " + sani);
+            log.debug("Name already taken: " + sanitized);
             throw new NameAlreadyTakenException();
         }
-        log.info("Creating for Name: " + sani);
+        log.info("Creating for Name: " + sanitized);
         NostrNip05Entity nostrNip05Entity = new NostrNip05Entity();
-        nostrNip05Entity.setName(sani);
+        nostrNip05Entity.setName(sanitized);
         nostrNip05Entity.setNpub1(nostrNip05CreateRequest.getNpub1());
         nostrNip05EntityRepository.save(nostrNip05Entity);
     }
 
     @Transactional
     public void updateNip05(NostrNip05UpdateRequest nostrNip05UpdateRequest) throws NameNotFoundException, BadNIP05FormatException {
-        String sani = sanitizeNIP5Name(nostrNip05UpdateRequest.getName());
-        if (null == sani) {
+        String sanitized = sanitizeNIP5Name(nostrNip05UpdateRequest.getName());
+        if (null == sanitized) {
             throw new BadNIP05FormatException();
         }
-        var check = nostrNip05EntityRepository.findById(sani);
+        var check = nostrNip05EntityRepository.findById(sanitized);
         if (check.isEmpty()) {
             throw new NameNotFoundException();
         }
