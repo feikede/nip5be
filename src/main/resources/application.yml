@@ -1,9 +1,20 @@
+server:
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: text/html,text/plain,text/css,application/javascript,application/json
+    min-response-size: 512
+
 spring:
   jpa:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:mariadb://localhost:3306/smb
-    username: smb
-    password: smb
+    url: ${NIP5_DATABASE_URL}
+    username: ${NIP5_DATABASE_USER}
+    password: ${NIP5_DATABASE_PASS}
     driverClassName: org.mariadb.jdbc.Driver
+
+logging:
+  level:
+    de.feike: INFO

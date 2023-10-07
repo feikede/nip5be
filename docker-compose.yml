@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  nipdb:
+    image: "mariadb:10.7"
+    restart: 'always'
+    environment:
+      MARIADB_ROOT_PASSWORD: root-passwd
+      MARIADB_DATABASE: mdb
+      MARIADB_USER: mdba
+      MARIADB_PASSWORD: mdba
+
+  nip5server:
+    image: "nip5server:latest"
+    restart: 'always'
+    ports:
+      - "80:8080"
+    depends_on:
+      - nipdb
+    links:
+      - nipdb
+    environment:
+      LOGGING_LEVEL_DE_FEIKE: INFO
+      NIP5_DATABASE_URL: jdbc:mariadb://nipdb:3306/mdb
+      NIP5_DATABASE_USER: mdba
+      NIP5_DATABASE_PASS: mdba

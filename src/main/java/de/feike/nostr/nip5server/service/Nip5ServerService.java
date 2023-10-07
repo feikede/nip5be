@@ -64,7 +64,7 @@ public class Nip5ServerService {
         // TODO: Add some default relays until we need real answers
         HashMap<String, String[]> relays = new HashMap<>();
         relays.put(entity.getNpub1(),
-                new String[]{"https://nos.lol", "wss://eden.nostr.land"});
+                new String[]{"wss://nos.lol", "wss://eden.nostr.land"});
 
         return new NostrNip05Response(names, relays);
     }
