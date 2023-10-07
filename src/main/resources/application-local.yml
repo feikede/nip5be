@@ -10,15 +10,15 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: ${NIP5_DATABASE_URL}
-    username: ${NIP5_DATABASE_USER}
-    password: ${NIP5_DATABASE_PASS}
+    url: jdbc:mariadb://localhost:3306/smb
+    username: smb
+    password: smb
     driverClassName: org.mariadb.jdbc.Driver
 
 logging:
   level:
-    de.feike: INFO
+    de.feike: DEBUG
 
 # if set, clients must provide that secret for admin calls in Header "NIP5S_SECRET"
 nip5-server:
-  admin-secret: ${ADMIN_SECRET}
+  admin-secret: 'my#big#secret'

@@ -81,7 +81,7 @@ public class Nip5ServerService {
             log.debug("Name already taken: " + sanitized);
             throw new NameAlreadyTakenException();
         }
-        log.info("Creating for Name: " + sanitized);
+        log.info("Creating NIP-05 for Name: " + sanitized);
         NostrNip05Entity nostrNip05Entity = new NostrNip05Entity();
         nostrNip05Entity.setName(sanitized);
         nostrNip05Entity.setNpub1(nostrNip05CreateRequest.getNpub1());

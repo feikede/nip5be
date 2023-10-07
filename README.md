@@ -1,6 +1,6 @@
 # NIP-05 Backend
 
-My private backend for NIP-05 auth.
+Backend for NIP-05 auth.
 
 On events of kind 0 (metadata) you can specify the key "nip05" with
 an internet identifier (an email-like address) as the value.
@@ -17,3 +17,13 @@ then be a mapping of names to hex formatted public keys. If the public
 key for the given <name> matches the pubkey from
 the metadata event, the client then concludes
 that the given pubkey can indeed be referenced by its identifier
+
+## Why nostr needs this
+
+Authorization will become crucial for the success of the nostr protocol.
+It's easy to create trillions of private keys and use them to spam every
+thread, every conversation, every project. NIP-05 Auth,
+possibly with a set of trusted servers, can make things save.
+
+We use this software on https://nostrich.house
+
