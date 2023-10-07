@@ -4,6 +4,8 @@ services:
   nipdb:
     image: "mariadb:10.7"
     restart: 'always'
+    volumes:
+      - nip_data:/var/lib/mysql
     environment:
       MARIADB_ROOT_PASSWORD: root-passwd
       MARIADB_DATABASE: mdb
@@ -24,3 +26,6 @@ services:
       NIP5_DATABASE_URL: jdbc:mariadb://nipdb:3306/mdb
       NIP5_DATABASE_USER: mdba
       NIP5_DATABASE_PASS: mdba
+
+volumes:
+  nip_data:

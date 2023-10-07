@@ -66,7 +66,8 @@ public class Nip5ServerService {
         relays.put(entity.getNpub1(),
                 new String[]{"wss://nos.lol", "wss://eden.nostr.land"});
 
-        return new NostrNip05Response(names, relays);
+        // we don't support relays for now
+        return new NostrNip05Response(names, null);
     }
 
     @Transactional
