@@ -6,6 +6,7 @@ import de.feike.nostr.nip5server.controller.NameNotFoundException;
 import de.feike.nostr.nip5server.modell.NostrNip05CreateRequest;
 import de.feike.nostr.nip5server.modell.NostrNip05UpdateRequest;
 import de.feike.nostr.nip5server.service.Nip5ServerService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,52 +37,55 @@ class Nip5serverApplicationTests {
 
     @Test
     void createNip() throws NameAlreadyTakenException, NameNotFoundException, BadNIP05FormatException {
+        String npub = RandomStringUtils.randomAlphanumeric(64);
         // create nip
         nip5ServerService.createNip05(
                 NostrNip05CreateRequest.builder().name("createNip")
-                        .npub1("zutweutr76wertuzwezu")
+                        .npub1(npub)
                         .relays(new String[]{"one", "two"}).build()
         );
         // retry must fail
         assertThrows(NameAlreadyTakenException.class, () ->
                 nip5ServerService.createNip05(
                         NostrNip05CreateRequest.builder().name("createNip")
-                                .npub1("zutweutr76wertuzwezu")
+                                .npub1(npub)
                                 .relays(new String[]{"one", "two"}).build()
                 ));
 
         var e = nip5ServerService.getNip05Entity("createNip");
-        Assertions.assertEquals("zutweutr76wertuzwezu", e.getNpub1());
+        Assertions.assertEquals(npub, e.getNpub1());
     }
 
     @Test
     void updateNip() throws NameAlreadyTakenException, NameNotFoundException, BadNIP05FormatException {
+        String npub = RandomStringUtils.randomAlphanumeric(64);
         // create nip
         nip5ServerService.createNip05(
-                NostrNip05CreateRequest.builder().name("Rainer2")
-                        .npub1("zutweutr76wertuzwesddzu")
+                NostrNip05CreateRequest.builder().name("updateNip")
+                        .npub1(npub)
                         .relays(new String[]{"one", "two"}).build()
         );
         // update undef must fail
         assertThrows(NameNotFoundException.class, () ->
                 nip5ServerService.updateNip05(
                         NostrNip05UpdateRequest.builder().name("undef")
-                                .npub1("zutweutr76wertuzwezu")
+                                .npub1(npub)
                                 .numSatsPaid(20L)
                                 .numSatsPayable(1L)
                                 .tsPaidUntil(Instant.now().getEpochSecond() + 48 * 3600)
                                 .build()
                 ));
         nip5ServerService.updateNip05(
-                NostrNip05UpdateRequest.builder().name("Rainer2")
-                        .npub1("zutweutr76wertuzwezu")
+                NostrNip05UpdateRequest.builder().name("updateNip")
+                        .npub1(npub)
                         .numSatsPaid(20L)
                         .numSatsPayable(1L)
                         .tsPaidUntil(Instant.now().getEpochSecond() + 48 * 3600)
                         .build()
         );
 
-        var e = nip5ServerService.getNip05Entity("Rainer2");
+        var e = nip5ServerService.getNip05Entity("updateNip");
+        Assertions.assertEquals(npub, e.getNpub1());
         Assertions.assertEquals(20L, e.getNumSatsPaid());
     }
 

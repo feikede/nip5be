@@ -7,4 +7,4 @@ spring:
 
 logging:
   level:
-    de.feike.dze: DEBUG
+    de.feike: DEBUG

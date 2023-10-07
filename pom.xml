@@ -10,7 +10,7 @@
     </parent>
     <groupId>de.feike.nostr</groupId>
     <artifactId>nip5server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.9</version>
     <name>nip5server</name>
     <description>nip5server</description>
     <properties>
@@ -29,7 +29,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
