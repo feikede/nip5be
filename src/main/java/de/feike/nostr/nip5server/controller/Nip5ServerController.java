@@ -3,6 +3,7 @@ package de.feike.nostr.nip5server.controller;
 import de.feike.nostr.nip5server.config.Nip5ServerConfig;
 import de.feike.nostr.nip5server.modell.NostrNip05CreateRequest;
 import de.feike.nostr.nip5server.modell.NostrNip05Response;
+import de.feike.nostr.nip5server.modell.NostrNip05StatsResponse;
 import de.feike.nostr.nip5server.modell.NostrNip05UpdateRequest;
 import de.feike.nostr.nip5server.service.Nip5ServerService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,20 @@ public class Nip5ServerController {
         } catch (BadNIP05FormatException e2) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    /**
+     * Some server stats, currently just the number of nip5 rows.
+     *
+     * @param secret header secret (if set by server instance)
+     * @return NostrNip05StatsResponse
+     */
+    @GetMapping("/nip5s-admin/stats")
+    public ResponseEntity<NostrNip05StatsResponse> getServerStats(@RequestHeader(value = Nip5ServerController.N5S_SECRET_HEADER, required = false) String secret) {
+        if ((!nip5ServerConfig.getAdminSecret().isEmpty()) && (!nip5ServerConfig.getAdminSecret().equals(secret))) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(nip5ServerService.getServerStats(), HttpStatus.OK);
     }
 
     /**

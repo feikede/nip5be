@@ -1,6 +1,6 @@
 # NIP-05 Backend
 
-Backend for NIP-05 auth.
+Backend for NIP-05 auth. 2023 by Rainer Feike.
 
 On events of kind 0 (metadata) you can specify the key "nip05" with
 an internet identifier (an email-like address) as the value.

@@ -5,6 +5,7 @@ package de.feike.nostr.nip5server;
  * https://github.com/nostr-protocol/nips/blob/master/05.md
  * <p>
  * Provided as is, without any warranty or rights.
+ * 2023 by Rainer Feike
  */
 
 import org.springframework.boot.SpringApplication;

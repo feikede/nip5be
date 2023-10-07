@@ -3,10 +3,7 @@ package de.feike.nostr.nip5server.service;
 import de.feike.nostr.nip5server.controller.BadNIP05FormatException;
 import de.feike.nostr.nip5server.controller.NameAlreadyTakenException;
 import de.feike.nostr.nip5server.controller.NameNotFoundException;
-import de.feike.nostr.nip5server.modell.NostrNip05CreateRequest;
-import de.feike.nostr.nip5server.modell.NostrNip05Entity;
-import de.feike.nostr.nip5server.modell.NostrNip05Response;
-import de.feike.nostr.nip5server.modell.NostrNip05UpdateRequest;
+import de.feike.nostr.nip5server.modell.*;
 import de.feike.nostr.nip5server.repositories.NostrNip05EntityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -68,6 +65,12 @@ public class Nip5ServerService {
 
         // we don't support relays for now
         return new NostrNip05Response(names, null);
+    }
+
+    @Transactional(readOnly = true)
+    public NostrNip05StatsResponse getServerStats() {
+        Long cnt = nostrNip05EntityRepository.count();
+        return new NostrNip05StatsResponse(cnt);
     }
 
     @Transactional
