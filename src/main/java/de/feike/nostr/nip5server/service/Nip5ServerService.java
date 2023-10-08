@@ -107,4 +107,9 @@ public class Nip5ServerService {
         nostrNip05Entity.setTsPaidUntil(nostrNip05Entity.getTsPaidUntil());
         nostrNip05EntityRepository.save(nostrNip05Entity);
     }
+
+    public NostrNip05Entity getNameInfo(String name) throws NameNotFoundException, BadNIP05FormatException {
+        return getNip05Entity(name);
+    }
+
 }
