@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 public class Nip5ServerController {
+    public static final String ADMIN_PATH = "/v1/nip5s-admin";
     final Nip5ServerService nip5ServerService;
 
     final Nip5ServerConfig nip5ServerConfig;
@@ -43,7 +44,7 @@ public class Nip5ServerController {
      *
      * @return NostrNip05Entity
      */
-    @GetMapping("/nip5s-admin/info")
+    @GetMapping(ADMIN_PATH + "/nip05id")
     public ResponseEntity<NostrNip05Entity> getNameInfo(@RequestParam("name") String name) {
         try {
             return new ResponseEntity<>(nip5ServerService.getNameInfo(name), HttpStatus.OK);
@@ -59,7 +60,7 @@ public class Nip5ServerController {
      *
      * @return NostrNip05StatsResponse
      */
-    @GetMapping("/nip5s-admin/stats")
+    @GetMapping(ADMIN_PATH + "/stats")
     public ResponseEntity<NostrNip05StatsResponse> getServerStats() {
         return new ResponseEntity<>(nip5ServerService.getServerStats(), HttpStatus.OK);
     }
@@ -70,7 +71,7 @@ public class Nip5ServerController {
      * @param nostrNip05CreateRequest new user record to create
      * @return 200 OK or HTTP 409, 400, 401
      */
-    @PostMapping("/nip5s-admin/nostr")
+    @PostMapping(ADMIN_PATH + "/nip05id")
     public ResponseEntity<Void> createNip05(@RequestBody NostrNip05CreateRequest nostrNip05CreateRequest) {
         try {
             nip5ServerService.createNip05(nostrNip05CreateRequest);
@@ -89,7 +90,7 @@ public class Nip5ServerController {
      * @param nostrNip05UpdateRequest user record to update
      * @return 200 OK or HTTP 404, 400, 401
      */
-    @PutMapping("/nip5s-admin/nostr")
+    @PutMapping(ADMIN_PATH + "/nip05id")
     public ResponseEntity<Void> updateNip05(@RequestBody NostrNip05UpdateRequest nostrNip05UpdateRequest) {
         try {
             nip5ServerService.updateNip05(nostrNip05UpdateRequest);
