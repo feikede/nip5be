@@ -7,26 +7,26 @@ services:
     volumes:
       - nip_data:/var/lib/mysql
     environment:
-      MARIADB_ROOT_PASSWORD: root-passwd
-      MARIADB_DATABASE: mdb
-      MARIADB_USER: mdba
-      MARIADB_PASSWORD: mdba
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${NIP5_DATABASE_NAME}
+      MARIADB_USER: ${NIP5_DATABASE_USER}
+      MARIADB_PASSWORD: ${NIP5_DATABASE_PASS}
 
   nip5server:
     image: "nip5server:latest"
     restart: 'always'
     ports:
-      - "80:8080"
+      - "${NIP5_SERVER_PORT}:8080"
     depends_on:
       - nipdb
     links:
       - nipdb
     environment:
       LOGGING_LEVEL_DE_FEIKE: INFO
-      NIP5_DATABASE_URL: jdbc:mariadb://nipdb:3306/mdb
-      NIP5_DATABASE_USER: mdba
-      NIP5_DATABASE_PASS: mdba
-      ADMIN_SECRET: ""
+      NIP5_DATABASE_URL: ${NIP5_DATABASE_URL}
+      NIP5_DATABASE_USER: ${NIP5_DATABASE_USER}
+      NIP5_DATABASE_PASS: ${NIP5_DATABASE_PASS}
+      NIP5_ADMIN_SECRET: ${NIP5_ADMIN_SECRET}
 
 volumes:
   nip_data:

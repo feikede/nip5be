@@ -21,4 +21,4 @@ logging:
 
 # if set, clients must provide that secret for admin calls in Header "NIP5S_SECRET"
 nip5-server:
-  admin-secret: ${ADMIN_SECRET}
+  admin-secret: ${NIP5_ADMIN_SECRET}
