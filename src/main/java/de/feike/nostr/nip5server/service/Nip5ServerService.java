@@ -104,7 +104,7 @@ public class Nip5ServerService {
         NostrNip05Entity nostrNip05Entity = check.get();
         nostrNip05Entity.setNumSatsPaid(nostrNip05UpdateRequest.getNumSatsPaid());
         nostrNip05Entity.setNumSatsPayable(nostrNip05UpdateRequest.getNumSatsPayable());
-        nostrNip05Entity.setTsPaidUntil(nostrNip05Entity.getTsPaidUntil());
+        nostrNip05Entity.setTsPaidUntil(nostrNip05UpdateRequest.getTsPaidUntil());
         nostrNip05EntityRepository.save(nostrNip05Entity);
     }
 
