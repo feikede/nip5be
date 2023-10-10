@@ -26,7 +26,7 @@ public class Nip5ServerController {
      * Give response like spec in NIP-05 of nostr protocol
      *
      * @param name The name to lookup
-     * @return NIP-05 response + 200 or HTTP 404, 400
+     * @return NIP-05 response + 200 or HTTP 404, 400, 401
      */
     @GetMapping("/.well-known/nostr.json")
     public ResponseEntity<NostrNip05Response> getNip05(@RequestParam("name") String name) {
@@ -36,6 +36,8 @@ public class Nip5ServerController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (BadNIP05FormatException e2) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (NameReservedException e3) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -77,7 +79,7 @@ public class Nip5ServerController {
             nip5ServerService.createNip05(nostrNip05CreateRequest);
         } catch (NameAlreadyTakenException e1) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } catch (BadNIP05FormatException e2) {
+        } catch (BadNIP05FormatException | BadRecTypeException e2) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -96,7 +98,7 @@ public class Nip5ServerController {
             nip5ServerService.updateNip05(nostrNip05UpdateRequest);
         } catch (NameNotFoundException e1) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (BadNIP05FormatException e2) {
+        } catch (BadNIP05FormatException | BadRecTypeException e2) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

@@ -7,7 +7,8 @@ import lombok.Getter;
 @Builder
 public class NostrNip05UpdateRequest {
     String name;
-    String npub1;
+    String hexpub;
+    String type;
     String[] relays = new String[]{};
     Long numSatsPaid = 0L;
     Long numSatsPayable = 0L;

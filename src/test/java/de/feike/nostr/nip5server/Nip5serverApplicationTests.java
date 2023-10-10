@@ -1,6 +1,7 @@
 package de.feike.nostr.nip5server;
 
 import de.feike.nostr.nip5server.controller.BadNIP05FormatException;
+import de.feike.nostr.nip5server.controller.BadRecTypeException;
 import de.feike.nostr.nip5server.controller.NameAlreadyTakenException;
 import de.feike.nostr.nip5server.controller.NameNotFoundException;
 import de.feike.nostr.nip5server.modell.NostrNip05CreateRequest;
@@ -36,56 +37,61 @@ class Nip5serverApplicationTests {
     }
 
     @Test
-    void createNip() throws NameAlreadyTakenException, NameNotFoundException, BadNIP05FormatException {
+    void createNip() throws NameAlreadyTakenException, NameNotFoundException, BadNIP05FormatException, BadRecTypeException {
         String npub = RandomStringUtils.randomAlphanumeric(64);
         // create nip
         nip5ServerService.createNip05(
                 NostrNip05CreateRequest.builder().name("createNip")
-                        .npub1(npub)
+                        .hexpub(npub)
+                        .type("sale")
                         .relays(new String[]{"one", "two"}).build()
         );
         // retry must fail
         assertThrows(NameAlreadyTakenException.class, () ->
                 nip5ServerService.createNip05(
                         NostrNip05CreateRequest.builder().name("createNip")
-                                .npub1(npub)
+                                .hexpub(npub)
+                                .type("sale")
                                 .relays(new String[]{"one", "two"}).build()
                 ));
 
         var e = nip5ServerService.getNip05Entity("createNip");
-        Assertions.assertEquals(npub, e.getNpub1());
+        Assertions.assertEquals(npub, e.getHexpub());
     }
 
     @Test
-    void updateNip() throws NameAlreadyTakenException, NameNotFoundException, BadNIP05FormatException {
+    void updateNip() throws NameAlreadyTakenException, NameNotFoundException, BadNIP05FormatException, BadRecTypeException {
         String npub = RandomStringUtils.randomAlphanumeric(64);
         // create nip
         nip5ServerService.createNip05(
                 NostrNip05CreateRequest.builder().name("updateNip")
-                        .npub1(npub)
+                        .hexpub(npub)
+                        .type("res")
                         .relays(new String[]{"one", "two"}).build()
         );
         // update undef must fail
         assertThrows(NameNotFoundException.class, () ->
                 nip5ServerService.updateNip05(
                         NostrNip05UpdateRequest.builder().name("undef")
-                                .npub1(npub)
+                                .hexpub(npub)
                                 .numSatsPaid(20L)
+                                .type("sale")
                                 .numSatsPayable(1L)
                                 .tsPaidUntil(Instant.now().getEpochSecond() + 48 * 3600)
                                 .build()
                 ));
         nip5ServerService.updateNip05(
                 NostrNip05UpdateRequest.builder().name("updateNip")
-                        .npub1(npub)
+                        .hexpub(npub)
                         .numSatsPaid(20L)
+                        .type("sale")
                         .numSatsPayable(1L)
                         .tsPaidUntil(Instant.now().getEpochSecond() + 48 * 3600)
                         .build()
         );
 
         var e = nip5ServerService.getNip05Entity("updateNip");
-        Assertions.assertEquals(npub, e.getNpub1());
+        Assertions.assertEquals(npub, e.getHexpub());
         Assertions.assertEquals(20L, e.getNumSatsPaid());
     }
 

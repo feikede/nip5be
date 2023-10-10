@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public class NostrNip05CreateRequest {
     String name;
-    String npub1;
+    String hexpub;
+    String type;
     String[] relays = new String[]{};
 }
