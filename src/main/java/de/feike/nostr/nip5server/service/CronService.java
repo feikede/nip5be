@@ -25,7 +25,8 @@ public class CronService {
     @Transactional
     @Scheduled(fixedDelay = 180000L, initialDelay = 30000L)
     public void cleanupReservations() {
+        log.debug("running cleanupReservations()");
         nostrNip05EntityRepository.deleteOutdatedReservations(Instant.now().getEpochSecond());
     }
-    
+
 }

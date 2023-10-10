@@ -11,10 +11,14 @@ package de.feike.nostr.nip5server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Spring Boot Server Application
  */
+@EnableScheduling
+@EnableJpaRepositories
 @SpringBootApplication
 @ConfigurationPropertiesScan
 public class Nip5serverApplication {
