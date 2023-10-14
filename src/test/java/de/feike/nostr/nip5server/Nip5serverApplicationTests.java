@@ -55,7 +55,7 @@ class Nip5serverApplicationTests {
                                 .relays(new String[]{"one", "two"}).build()
                 ));
 
-        var e = nip5ServerService.getNip05Entity("createNip");
+        var e = nip5ServerService.getNip05EntityByName("createNip");
         Assertions.assertEquals(npub, e.getHexpub());
     }
 
@@ -90,7 +90,7 @@ class Nip5serverApplicationTests {
                         .build()
         );
 
-        var e = nip5ServerService.getNip05Entity("updateNip");
+        var e = nip5ServerService.getNip05EntityByName("updateNip");
         Assertions.assertEquals(npub, e.getHexpub());
         Assertions.assertEquals(20L, e.getNumSatsPaid());
     }

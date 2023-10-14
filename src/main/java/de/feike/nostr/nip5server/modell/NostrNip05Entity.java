@@ -11,6 +11,7 @@ import java.time.Instant;
 @Setter
 @Table(name = "nostr_nip05entity", indexes = {
         @Index(name = "i_tsPaidUntil", columnList = "ts_paid_until"),
+        @Index(name = "i_hexpub", columnList = "npub1"),
         @Index(name = "i_type", columnList = "type"),
 })
 public class NostrNip05Entity {

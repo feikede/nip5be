@@ -47,9 +47,10 @@ public class Nip5ServerController {
      * @return NostrNip05Entity
      */
     @GetMapping(ADMIN_PATH + "/nip05id")
-    public ResponseEntity<NostrNip05Entity> getNameInfo(@RequestParam("name") String name) {
+    public ResponseEntity<NostrNip05Entity> getNip05Info(@RequestParam(value = "name", required = false) String name,
+                                                         @RequestParam(value = "hexpub", required = false) String hexpub) {
         try {
-            return new ResponseEntity<>(nip5ServerService.getNameInfo(name), HttpStatus.OK);
+            return new ResponseEntity<>(nip5ServerService.getNip05Info(name, hexpub), HttpStatus.OK);
         } catch (NameNotFoundException e1) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (BadNIP05FormatException e2) {
@@ -99,6 +100,25 @@ public class Nip5ServerController {
         } catch (NameNotFoundException e1) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (BadNIP05FormatException | BadRecTypeException e2) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * Update NIP-05 rec for user, maybe secured by header secret (if set by server instance)
+     *
+     * @param name user name to delete
+     * @return 200 OK or HTTP 404, 400, 401
+     */
+    @DeleteMapping(ADMIN_PATH + "/nip05id")
+    public ResponseEntity<Void> deleteNip05(@RequestParam(value = "name") String name) {
+        try {
+            nip5ServerService.deleteNip05(name);
+        } catch (NameNotFoundException e1) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (BadNIP05FormatException e2) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

@@ -6,9 +6,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface NostrNip05EntityRepository extends JpaRepository<NostrNip05Entity, String> {
     @Modifying
     @Query("delete from NostrNip05Entity e where e.type = 'res' and e.tsPaidUntil < :ts")
-    public void deleteOutdatedReservations(@Param("ts") Long ts);
+    void deleteOutdatedReservations(@Param("ts") Long ts);
+
+    List<NostrNip05Entity> findAllByHexpub(String hexpub);
 
 }

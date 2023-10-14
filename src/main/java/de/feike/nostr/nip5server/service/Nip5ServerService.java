@@ -6,6 +6,7 @@ import de.feike.nostr.nip5server.repositories.NostrNip05EntityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 
@@ -37,7 +38,7 @@ public class Nip5ServerService {
     }
 
     @Transactional(readOnly = true)
-    public NostrNip05Entity getNip05Entity(String name) throws NameNotFoundException, BadNIP05FormatException {
+    public NostrNip05Entity getNip05EntityByName(String name) throws NameNotFoundException, BadNIP05FormatException {
         String sanitized = sanitizeNIP5Name(name);
         if (null == sanitized) {
             throw new BadNIP05FormatException();
@@ -52,7 +53,7 @@ public class Nip5ServerService {
 
     @Transactional(readOnly = true)
     public NostrNip05Response getNip05Response(String name) throws NameNotFoundException, BadNIP05FormatException, NameReservedException {
-        var entity = getNip05Entity(name);
+        var entity = getNip05EntityByName(name);
         log.debug("Response lookup: " + name);
         if ("res".equals(entity.getType())) {
             throw new NameReservedException();
@@ -118,8 +119,22 @@ public class Nip5ServerService {
         nostrNip05EntityRepository.save(nostrNip05Entity);
     }
 
-    public NostrNip05Entity getNameInfo(String name) throws NameNotFoundException, BadNIP05FormatException {
-        return getNip05Entity(name);
+    @Transactional(readOnly = true)
+    public NostrNip05Entity getNip05Info(String name, String hexpub) throws NameNotFoundException, BadNIP05FormatException {
+        if (StringUtils.hasLength(name)) {
+            return getNip05EntityByName(name);
+        } else if (StringUtils.hasLength(hexpub) && (hexpub.length() == 64)) {
+            var list = nostrNip05EntityRepository.findAllByHexpub(hexpub);
+            if (list.isEmpty()) {
+                throw new NameNotFoundException();
+            }
+            return list.get(0);
+        }
+        throw new BadNIP05FormatException();
     }
 
+    public void deleteNip05(String name) throws NameNotFoundException, BadNIP05FormatException {
+        var e = getNip05EntityByName(name);
+        nostrNip05EntityRepository.delete(e);
+    }
 }

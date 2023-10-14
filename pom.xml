@@ -10,7 +10,7 @@
     </parent>
     <groupId>de.feike.nostr</groupId>
     <artifactId>nip5server</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <name>nip5server</name>
     <description>nip5server</description>
     <properties>
