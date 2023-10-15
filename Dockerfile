@@ -1,7 +1,7 @@
 #
 # Build stage
 #
-# build like: docker build . -t nip5server:latest -t nip5server:1.0
+# build like: docker build . -t nip5server:latest -t nip5server:1.2
 #
 FROM maven:3.8-openjdk-18 AS build
 COPY src /home/app/src

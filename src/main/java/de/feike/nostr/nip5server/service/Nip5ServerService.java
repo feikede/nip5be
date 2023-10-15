@@ -1,7 +1,10 @@
 package de.feike.nostr.nip5server.service;
 
 import de.feike.nostr.nip5server.controller.*;
-import de.feike.nostr.nip5server.modell.*;
+import de.feike.nostr.nip5server.modell.NostrNip05CreateRequest;
+import de.feike.nostr.nip5server.modell.NostrNip05Entity;
+import de.feike.nostr.nip5server.modell.NostrNip05Response;
+import de.feike.nostr.nip5server.modell.NostrNip05StatsResponse;
 import de.feike.nostr.nip5server.repositories.NostrNip05EntityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -94,11 +97,14 @@ public class Nip5ServerService {
         nostrNip05Entity.setName(sanitized);
         nostrNip05Entity.setType(nostrNip05CreateRequest.getType());
         nostrNip05Entity.setHexpub(nostrNip05CreateRequest.getHexpub());
+        nostrNip05Entity.setNumSatsPaid(nostrNip05CreateRequest.getNumSatsPaid());
+        nostrNip05Entity.setNumSatsPayable(nostrNip05CreateRequest.getNumSatsPayable());
+        nostrNip05Entity.setTsPaidUntil(nostrNip05CreateRequest.getTsPaidUntil());
         nostrNip05EntityRepository.save(nostrNip05Entity);
     }
 
     @Transactional
-    public void updateNip05(NostrNip05UpdateRequest nostrNip05UpdateRequest) throws NameNotFoundException, BadNIP05FormatException, BadRecTypeException {
+    public void updateNip05(NostrNip05CreateRequest nostrNip05UpdateRequest) throws NameNotFoundException, BadNIP05FormatException, BadRecTypeException {
         if (!NostrNip05Entity.isValidType(nostrNip05UpdateRequest.getType())) {
             throw new BadRecTypeException();
         }

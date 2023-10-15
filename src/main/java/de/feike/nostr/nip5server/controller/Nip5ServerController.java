@@ -1,7 +1,10 @@
 package de.feike.nostr.nip5server.controller;
 
 import de.feike.nostr.nip5server.config.Nip5ServerConfig;
-import de.feike.nostr.nip5server.modell.*;
+import de.feike.nostr.nip5server.modell.NostrNip05CreateRequest;
+import de.feike.nostr.nip5server.modell.NostrNip05Entity;
+import de.feike.nostr.nip5server.modell.NostrNip05Response;
+import de.feike.nostr.nip5server.modell.NostrNip05StatsResponse;
 import de.feike.nostr.nip5server.service.Nip5ServerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -94,7 +97,7 @@ public class Nip5ServerController {
      * @return 200 OK or HTTP 404, 400, 401
      */
     @PutMapping(ADMIN_PATH + "/nip05id")
-    public ResponseEntity<Void> updateNip05(@RequestBody NostrNip05UpdateRequest nostrNip05UpdateRequest) {
+    public ResponseEntity<Void> updateNip05(@RequestBody NostrNip05CreateRequest nostrNip05UpdateRequest) {
         try {
             nip5ServerService.updateNip05(nostrNip05UpdateRequest);
         } catch (NameNotFoundException e1) {

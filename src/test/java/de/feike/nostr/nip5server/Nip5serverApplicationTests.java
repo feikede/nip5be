@@ -5,7 +5,6 @@ import de.feike.nostr.nip5server.controller.BadRecTypeException;
 import de.feike.nostr.nip5server.controller.NameAlreadyTakenException;
 import de.feike.nostr.nip5server.controller.NameNotFoundException;
 import de.feike.nostr.nip5server.modell.NostrNip05CreateRequest;
-import de.feike.nostr.nip5server.modell.NostrNip05UpdateRequest;
 import de.feike.nostr.nip5server.service.Nip5ServerService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
@@ -72,7 +71,7 @@ class Nip5serverApplicationTests {
         // update undef must fail
         assertThrows(NameNotFoundException.class, () ->
                 nip5ServerService.updateNip05(
-                        NostrNip05UpdateRequest.builder().name("undef")
+                        NostrNip05CreateRequest.builder().name("undef")
                                 .hexpub(npub)
                                 .numSatsPaid(20L)
                                 .type("sale")
@@ -81,7 +80,7 @@ class Nip5serverApplicationTests {
                                 .build()
                 ));
         nip5ServerService.updateNip05(
-                NostrNip05UpdateRequest.builder().name("updateNip")
+                NostrNip05CreateRequest.builder().name("updateNip")
                         .hexpub(npub)
                         .numSatsPaid(20L)
                         .type("sale")
