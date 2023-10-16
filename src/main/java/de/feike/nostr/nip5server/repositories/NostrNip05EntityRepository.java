@@ -13,6 +13,11 @@ public interface NostrNip05EntityRepository extends JpaRepository<NostrNip05Enti
     @Query("delete from NostrNip05Entity e where e.type = 'res' and e.tsPaidUntil < :ts")
     void deleteOutdatedReservations(@Param("ts") Long ts);
 
+    @Modifying
+    @Query("delete from NostrNip05Entity e where e.type = 'sale' and e.tsPaidUntil < :ts")
+    void deleteExpiredBookings(@Param("ts") Long ts);
+
+
     List<NostrNip05Entity> findAllByHexpub(String hexpub);
 
 }

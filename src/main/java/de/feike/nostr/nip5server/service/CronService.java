@@ -29,4 +29,14 @@ public class CronService {
         nostrNip05EntityRepository.deleteOutdatedReservations(Instant.now().getEpochSecond());
     }
 
+    /*
+    Cleanup expired sales
+     */
+    @Transactional
+    @Scheduled(fixedDelay = 600000L, initialDelay = 180000L)
+    public void cleanupExpiredSales() {
+        log.debug("running cleanupExpiredSales()");
+        nostrNip05EntityRepository.deleteExpiredBookings(Instant.now().getEpochSecond());
+    }
+
 }
