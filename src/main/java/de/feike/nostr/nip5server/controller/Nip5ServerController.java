@@ -31,6 +31,7 @@ public class Nip5ServerController {
      * @param name The name to lookup
      * @return NIP-05 response + 200 or HTTP 404, 400, 401
      */
+    @CrossOrigin
     @GetMapping("/.well-known/nostr.json")
     public ResponseEntity<NostrNip05Response> getNip05(@RequestParam("name") String name) {
         try {
